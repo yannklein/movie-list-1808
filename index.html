@@ -18,21 +18,28 @@
   </script>
 </head>
 <body>
-  <div class="container">
-    <div id="app">
-      {{message}}
-    </div>
 
+  <div id="vue-root">
+    {{ message }}
+  </div>
+
+  <div class="container">
+    <!-- beforebegin -->
     <div id="results" class="row">
+      <!-- afterbegin -->
+
       <!-- Your movie list goes here -->
+      
+      <!-- beforeend -->
     </div>
+    <!-- afterend -->
   </div>
 
   <template id="movieCardTemplate">
     {{#movies}}
-    <div class='col-4'>
+    <div class='col-6'>
       <div class="card">
-        <img src="{{Poster}}" class="card-img-top" alt="">
+        <img src="{{Poster}}" class="card-img-top" alt="{{Title}}">
         <div class="card-body">
           <h6 class="card-title">{{Title}}</h6>
           <p class="card-text">{{Year}}</p>
