@@ -22,28 +22,28 @@
   <div class="container">
 
     <div id="vue-root">
-      {{message}}
+      {{ message }}
     </div>
 
     <div id="results" class="row">
-      
+
     </div>
+
   </div>
 
-
-  <template id="movie-card-template">
-    {{#movies}}
+  <template id="movieCardTemplate">
+    {{#movieCards}}
     <div class='col-6'>
-      <div class="card">
-        <img src="{{Poster}}" class="card-img-top" alt="{{Title}} poster">
+      <div class="card mb-3">
+        <img src="{{Poster}}" class="card-img-top" alt="{{Title}}">
         <div class="card-body">
-          <h2 class="card-title">{{Title}}<h2>
-          <p class="card-text">{{Year}}<p>
+          <h2 class="card-title">{{Title}}</h2>
+          <p class="card-text">{{Year}}</p>
           <a href="https://www.imdb.com/title/{{imdbID}}" class="btn btn-primary" target="_blank">Go on IMDB</a>
         </div>
       </div>
     </div>
-    {{/movies}}
+    {{/movieCards}}
   </template>
 
   <!-- Import your own javascript -->

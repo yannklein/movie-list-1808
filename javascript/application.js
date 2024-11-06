@@ -1,34 +1,36 @@
 import Mustache from "mustachejs";
 import { createApp } from "vue";
 
-const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
+// console.log("Happy Wed!");
+
+const url = `https://www.omdbapi.com/?s=back to the future&apikey=620c6871`;
 
 // ///////////
 // Vanilla JS
 // ///////////
 
-// // 1. Select elements results div
-// const results = document.querySelector('#results');
+// 1. Select elements (results)
+// const results = document.querySelector("#results");
 
-// // 2. Fetch an array movies form OMDB API
+// 2 Fetch API (GET OMDB api) --> object
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     // 3. Change the DOM insert the movies in results
-//     const movies = data.Search;
-//     movies.forEach((movie) => {
-//       const cardTemplate = `
-//       <div class='col-6'>
-//         <div class="card">
-//           <img src="${movie.Poster}" class="card-img-top" alt="${movie.Title} poster">
-//           <div class="card-body">
-//             <h2 class="card-title">${movie.Title}</h2>
-//             <p class="card-text">${movie.Year}</p>
-//             <a href="https://www.imdb.com/title/${movie.imdbID}" class="btn btn-primary" target="_blank">Go on IMDB</a>
+//     console.log(data);
+//     // 3. Change the DOM (insert the movie card into the results)
+//     data.Search.forEach((movieData) => {
+//       const card = 
+//       `<div class='col-6'>
+//           <div class="card mb-3">
+//             <img src="${movieData.Poster}" class="card-img-top" alt="${movieData.Title}">
+//             <div class="card-body">
+//               <h2 class="card-title">${movieData.Title}</h2>
+//               <p class="card-text">${movieData.Year}</p>
+//               <a href="https://www.imdb.com/title/${movieData.imdbID}" class="btn btn-primary" target="_blank">Go on IMDB</a>
+//             </div>
 //           </div>
-//         </div>
-//       </div>`;
-//       results.insertAdjacentHTML("beforeend", cardTemplate);
+//         </div>`;
+//       results.insertAdjacentHTML("afterbegin", card);
 //     });
 //   });
 
@@ -36,22 +38,29 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 // JS with templates
 // ///////////
 
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const movieCardTemplate = document.querySelector("#movieCardTemplate");
+// const results = document.querySelector("#results");
 
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     const movies = data.Search;
-//     movies.forEach((movie) => {
-//       console.log(template.content) // this is a HTML element
-//       // console.log(template.innerHTML) // this is a string
-//       const clone = template.content.cloneNode(true); // creating a copy of the original template
-//       clone.querySelector(".card-title").innerText = movie.Title;
-//       clone.querySelector(".card-img-top").src = movie.Poster;
-//       clone.querySelector(".card-img-top").alt = `${movie.Title} poster`;
-//       clone.querySelector("a").href = `https://www.imdb.com/title/${movie.imdbID}`;
-//       results.appendChild(clone) // inserting the clone into results
+//     data.Search.forEach((movieData) => {
+//       // movieCardTemplate.innerHTML --> string
+//       // movieCardTemplate.content ---> HTML element
+//       // console.log(movieCardTemplate.innerHTML);
+//       // console.log(movieCardTemplate.content);
+//       // XXX.cloneNode(true) --> makes a copy of a HTML element
+//       const card = movieCardTemplate.content.cloneNode(true);
+//       card.querySelector(".card-title").innerText = movieData.Title;
+//       card.querySelector(".card-text").innerText = movieData.Year;
+//       card.querySelector(".card-img-top").src = movieData.Poster;
+//       card.querySelector(".card-img-top").alt = movieData.Title;
+//       card.querySelector("a").href = `https://www.imdb.com/title/${movieData.imdbID}`;
+//       console.log(card);
+      
+//       results.appendChild(card) // --> works for a HTML element card
+//       // results.insertAdjacentHTML("afterbegin", card); --> works for a string card
+//       // results.insertAdjacentElement("afterbegin", card); --> works for a HTML element card
 //     });
 //   });
 
@@ -59,52 +68,57 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 // MUSTACHEJS
 // ///////////
 
-// const testTemplate = "<h1>{{student}} is amazing!</h1>";
-// const testData = { student: "Rei" }
+// const template = "Esteban is {{adjective}} {{quality}}."
+// const data = {
+//   quality: "curious",
+//   adjective: "incredibly"
+// };
+// const result = Mustache.render(template, data);
+// console.log(result);
 
-// const testResult = Mustache.render(testTemplate, testData);
-// console.log(testResult);
-// => <h1>Rei is amazing!</h1>
-
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const movieCardTemplate = document.querySelector("#movieCardTemplate");
+// const results = document.querySelector("#results");
 
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     const movies = data.Search;
-//     movies.forEach((movie) => {
-//       // {
-//       //   "Title": "Harry Potter and the Goblet of Fire",
-//       //   "Year": "2005",
-//       //   "imdbID": "tt0330373",
-//       //   "Type": "movie",
-//       //   "Poster": "https://m.media-amazon.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg"
-//       //  }
-//       const cardTemplate = template.innerHTML;
-//       const card = Mustache.render(cardTemplate, movie);
-//       results.insertAdjacentHTML("beforeend", card);
+//     data.Search.forEach((movieData) => {
+//       const template = movieCardTemplate.innerHTML;
+//       // console.log(template);
+//       // console.log(movieData);
+      
+//       const card = Mustache.render(template, movieData);
+//       // console.log(card);
+//       results.insertAdjacentHTML("afterbegin", card);
 //     });
 //   });
+
 
 // ///////////
 // MUSTACHEJS + ITERATION
 // ///////////
 
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const movieCardTemplate = document.querySelector("#movieCardTemplate");
+// const results = document.querySelector("#results");
 
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     const movies = data.Search;
-//     const moviesData = {
-//       "movies": movies
+//     const movieData = {
+//       movieCards: data.Search
 //     }
-//     const cardTemplate = template.innerHTML;
-//     const cards = Mustache.render(cardTemplate, moviesData);
-//     results.innerHTML = cards;
+//     // movieData is this 👇
+//     // {
+//     //    movieCards: [{Title: XXX, Year: YYY,...}, {}, {}, {}]
+//     // }
+//     // console.log(movieData);
+//     const template = movieCardTemplate.innerHTML;
+//     const cards = Mustache.render(template, movieData);
+//     // console.log(cards);
+//     results.insertAdjacentHTML("afterbegin", cards);
+  
 //   });
+
 
 // ///////////
 // VUEJS
@@ -113,7 +127,7 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 createApp({
   data() {
     return {
-      message: "Hello batch #1638"
+      message: "Hello batch #1808"
     }
   }
-}).mount("#vue-root")
+}).mount("#vue-root");
